@@ -4,6 +4,7 @@ import CreatePostService from '@modules/posts/services/CreatePostService';
 import ListPostService from '@modules/posts/services/ListPostService';
 import ShowPostService from '@modules/posts/services/ShowPostService';
 import UpdatePostService from '@modules/posts/services/UpdatePostService';
+import DeletePostService from '@modules/posts/services/DeletePostService';
 
 export default class PostsController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -55,13 +56,13 @@ export default class PostsController {
     return response.json(customer);
   }
 
-  // public async delete(request: Request, response: Response): Promise<Response> {
-  //   const { id } = request.params;
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
 
-  //   const deleteCustomer = container.resolve(DeleteCustomerService);
+    const deletePost = container.resolve(DeletePostService);
 
-  //   await deleteCustomer.execute({ id });
+    await deletePost.execute({ id });
 
-  //   return response.json([]);
-  // }
+    return response.status(204).json([]);
+  }
 }

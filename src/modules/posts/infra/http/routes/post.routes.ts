@@ -46,14 +46,14 @@ postsRouter.put(
   postsController.update,
 );
 
-// postsRouter.delete(
-//   '/:id',
-//   celebrate({
-//     [Segments.PARAMS]: {
-//       id: Joi.string().uuid().required(),
-//     },
-//   }),
-//   postsController.delete,
-// );
+postsRouter.delete(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  postsController.delete,
+);
 
 export default postsRouter;

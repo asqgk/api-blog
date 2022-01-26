@@ -10,5 +10,5 @@ export interface IPostsRepository {
   // findByEmail(email: string): Promise<IPost | undefined>;
   create(data: ICreatePost): Promise<IPostUser>;
   save(post: IPost): Promise<IPost>;
-  // remove(post: IPost): Promise<void>;
+  remove(post: IPost): Promise<void>;
 }

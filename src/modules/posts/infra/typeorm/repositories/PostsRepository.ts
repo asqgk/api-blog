@@ -25,9 +25,9 @@ class PostsRepository implements IPostsRepository {
     return post;
   }
 
-  // public async remove(customer: Customer): Promise<void> {
-  //   await this.ormRepository.remove(customer);
-  // }
+  public async remove(post: Post): Promise<void> {
+    await this.ormRepository.remove(post);
+  }
 
   public async findAll(): Promise<IListPosts[]> {
     const posts = await this.ormRepository.find();
