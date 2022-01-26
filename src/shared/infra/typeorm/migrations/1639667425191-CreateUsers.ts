@@ -14,7 +14,7 @@ export class CreateUsers1639667425191 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'name',
+            name: 'displayName',
             type: 'varchar',
           },
           {
@@ -27,19 +27,9 @@ export class CreateUsers1639667425191 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'avatar',
+            name: 'image',
             type: 'varchar',
             isNullable: true,
-          },
-          {
-            name: 'created_at',
-            type: 'timestamp with time zone',
-            default: 'now()',
-          },
-          {
-            name: 'updated_at',
-            type: 'timestamp with time zone',
-            default: 'now()',
           },
         ],
       }),

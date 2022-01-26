@@ -10,8 +10,18 @@ class UsersRepository implements IUsersRepository {
     this.ormRepository = getRepository(User);
   }
 
-  public async create({ name, email, password }: ICreateUser): Promise<User> {
-    const user = this.ormRepository.create({ name, email, password });
+  public async create({
+    displayName,
+    email,
+    password,
+    image,
+  }: ICreateUser): Promise<User> {
+    const user = this.ormRepository.create({
+      displayName,
+      email,
+      password,
+      image,
+    });
 
     await this.ormRepository.save(user);
 
@@ -22,6 +32,10 @@ class UsersRepository implements IUsersRepository {
     await this.ormRepository.save(user);
 
     return user;
+  }
+
+  public async remove(user: User): Promise<void> {
+    await this.ormRepository.remove(user);
   }
 
   public async findAll(): Promise<User[]> {

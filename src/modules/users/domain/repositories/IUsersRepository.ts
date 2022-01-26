@@ -8,4 +8,5 @@ export interface IUsersRepository {
   findByEmail(email: string): Promise<IUser | undefined>;
   create(data: ICreateUser): Promise<IUser>;
   save(user: IUser): Promise<IUser>;
+  remove(user: IUser): Promise<void>;
 }

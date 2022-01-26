@@ -14,19 +14,25 @@ class CreateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ name, email, password }: ICreateUser): Promise<IUser> {
+  public async execute({
+    displayName,
+    email,
+    password,
+    image,
+  }: ICreateUser): Promise<IUser> {
     const emailExists = await this.usersRepository.findByEmail(email);
 
     if (emailExists) {
-      throw new AppError('Email address already used.');
+      throw new AppError('Usuário já existe');
     }
 
     const hashedPassword = await this.hashProvider.generateHash(password);
 
     const user = await this.usersRepository.create({
-      name,
+      displayName,
       email,
       password: hashedPassword,
+      image,
     });
 
     return user;

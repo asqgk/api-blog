@@ -14,17 +14,31 @@ const upload = multer(uploadConfig.multer);
 
 usersRouter.get('/', isAuthenticated, usersController.index);
 
+usersRouter.get(
+  '/:id',
+  isAuthenticated,
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  usersController.show,
+);
+
 usersRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      name: Joi.string().required(),
+      displayName: Joi.string().min(8).required(),
       email: Joi.string().email().required(),
-      password: Joi.string().required(),
+      password: Joi.string().min(6).required(),
+      image: Joi.string(),
     },
   }),
   usersController.create,
 );
+
+usersRouter.delete('/me', isAuthenticated, usersController.delete);
 
 usersRouter.patch(
   '/avatar',
