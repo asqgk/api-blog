@@ -1,30 +1,32 @@
 // import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { ICreatePost } from '../domain/models/ICreatePost';
-import { IPost } from '../domain/models/IPost';
+import { IPostUser } from '../domain/models/IPostUser';
 import { IPostsRepository } from '../domain/repositories/IPostsRepository';
 
 @injectable()
 class CreatePostService {
   constructor(
-    @inject('CustomersRepository')
+    @inject('PostsRepository')
     private postsRepository: IPostsRepository,
   ) {}
 
-  public async execute({ title, content }: ICreatePost): Promise<IPost> {
-    // const emailExists = await this.postsRepository.findByEmail(email);
-
-    // if (emailExists) {
-    //   throw new AppError('Email address already used.');
-    // }
-
-    // método 'create' cria e salva
-    const post = await this.postsRepository.create({
+  public async execute({
+    title,
+    content,
+    userId,
+  }: ICreatePost): Promise<IPostUser> {
+    await this.postsRepository.create({
       title,
       content,
+      userId,
     });
 
-    return post;
+    return {
+      title,
+      content,
+      userId,
+    };
   }
 }
 

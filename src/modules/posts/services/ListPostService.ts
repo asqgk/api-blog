@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
-import { IPost } from '../domain/models/IPost';
+import { IListPosts } from '../domain/models/IListPosts';
+// import { IPost } from '../domain/models/IPost';
 import { IPostsRepository } from '../domain/repositories/IPostsRepository';
 
 @injectable()
@@ -9,8 +10,8 @@ class ListPostService {
     private postsRepository: IPostsRepository,
   ) {}
 
-  public async execute(): Promise<IPost[]> {
-    const posts = await this.postsRepository.findAllPaginate();
+  public async execute(): Promise<IListPosts[]> {
+    const posts = await this.postsRepository.findAll();
 
     return posts;
   }

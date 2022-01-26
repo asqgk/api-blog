@@ -1,6 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { IPost } from '../domain/models/IPost';
+import { IShowPost } from '../domain/models/IShowPost';
 import { IPostsRepository } from '../domain/repositories/IPostsRepository';
 
 @injectable()
@@ -10,7 +11,7 @@ class ShowPostService {
     private postsRepository: IPostsRepository,
   ) {}
 
-  public async execute({ id }: IShowCustomer): Promise<IPost> {
+  public async execute({ id }: IShowPost): Promise<IPost> {
     const post = await this.postsRepository.findById(id);
 
     if (!post) {

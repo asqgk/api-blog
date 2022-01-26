@@ -1,34 +1,29 @@
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { IPost } from '../domain/models/IPost';
+import { IUpdatePost } from '../domain/models/IUpdatePost';
 import { IPostsRepository } from '../domain/repositories/IPostsRepository';
 
 @injectable()
 class UpdatePostService {
   constructor(
-    @inject('CustomersRepository')
+    @inject('PostsRepository')
     private postsRepository: IPostsRepository,
   ) {}
 
-  public async execute({ id, name, email }: IUpdateCustomer): Promise<IPost> {
-    const customer = await this.customersRepository.findById(id);
+  public async execute({ id, title, content }: IUpdatePost): Promise<IPost> {
+    const post = await this.postsRepository.findById(id);
 
-    if (!customer) {
-      throw new AppError('Customer not found.');
+    if (!post) {
+      throw new AppError('Post not found.');
     }
 
-    const customerExists = await this.customersRepository.findByEmail(email);
+    post.title = title;
+    post.content = content;
 
-    if (customerExists && email !== customer.email) {
-      throw new AppError('There is already one customer with this email.');
-    }
+    await this.postsRepository.save(post);
 
-    customer.name = name;
-    customer.email = email;
-
-    await this.customersRepository.save(customer);
-
-    return customer;
+    return post;
   }
 }
 
