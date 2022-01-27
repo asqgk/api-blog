@@ -1,5 +1,4 @@
 import { ICreatePost } from '@modules/posts/domain/models/ICreatePost';
-import { IListPosts } from '@modules/posts/domain/models/IListPosts';
 import { IPost } from '@modules/posts/domain/models/IPost';
 import { IPostsRepository } from '@modules/posts/domain/repositories/IPostsRepository';
 import { getRepository, Repository } from 'typeorm';
