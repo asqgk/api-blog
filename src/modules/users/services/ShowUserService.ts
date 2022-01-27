@@ -15,7 +15,7 @@ class ShowUserService {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError('User not found.');
+      throw new AppError('Usuário não existe.', 404);
     }
 
     return user;

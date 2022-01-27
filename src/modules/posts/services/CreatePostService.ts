@@ -32,7 +32,7 @@ class CreatePostService {
       user: userExists,
     });
 
-    console.log(post);
+    // console.log(post);
 
     return {
       title,
