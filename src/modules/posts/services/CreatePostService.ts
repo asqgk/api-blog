@@ -8,11 +8,11 @@ import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepos
 @injectable()
 class CreatePostService {
   constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
-
     @inject('PostsRepository')
     private postsRepository: IPostsRepository,
+
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
   ) {}
 
   public async execute({
@@ -26,11 +26,13 @@ class CreatePostService {
       throw new AppError('Could not find any user with the given id.');
     }
 
-    await this.postsRepository.create({
+    const post = await this.postsRepository.create({
       title,
       content,
       user: userExists,
     });
+
+    console.log(post);
 
     return {
       title,

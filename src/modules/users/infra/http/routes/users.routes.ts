@@ -34,11 +34,4 @@ usersRouter.post(
 
 usersRouter.delete('/me', isAuthenticated, usersController.delete);
 
-// usersRouter.patch(
-//   '/avatar',
-//   isAuthenticated,
-//   upload.single('avatar'),
-//   usersAvatarController.update,
-// );
-
 export default usersRouter;
