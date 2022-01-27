@@ -28,14 +28,14 @@ export default class PostsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { title, content } = request.body;
 
-    const userId = request.user.id;
+    const user_id = request.user.id;
 
     const createPost = container.resolve(CreatePostService);
 
     const post = await createPost.execute({
       title,
       content,
-      userId,
+      user_id,
     });
 
     return response.status(201).json(post);
@@ -59,10 +59,22 @@ export default class PostsController {
   public async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
+    const user_id = request.user.id;
+
+    // console.log(user_id);
+
     const deletePost = container.resolve(DeletePostService);
 
-    await deletePost.execute({ id });
+    await deletePost.execute({ id, user_id });
 
     return response.status(204).json([]);
+  }
+
+  public async search(request: Request, response: Response): Promise<Response> {
+    const q = request.query.q;
+
+    // console.log(q);
+
+    return response.json();
   }
 }

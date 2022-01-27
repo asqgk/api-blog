@@ -21,10 +21,10 @@ export class CreatePosts1643131717354 implements MigrationInterface {
             name: 'content',
             type: 'varchar',
           },
-          // {
-          //   name: 'userId',
-          //   type: 'uuid',
-          // },
+          {
+            name: 'user_id',
+            type: 'uuid',
+          },
           {
             name: 'published',
             type: 'timestamp with time zone',
@@ -36,16 +36,16 @@ export class CreatePosts1643131717354 implements MigrationInterface {
             default: 'now()',
           },
         ],
-        // foreignKeys: [
-        //   {
-        //     name: 'PostUser',
-        //     referencedTableName: 'users',
-        //     referencedColumnNames: ['id'],
-        //     columnNames: ['userId'],
-        //     onDelete: 'CASCADE',
-        //     onUpdate: 'CASCADE',
-        //   },
-        // ],
+        foreignKeys: [
+          {
+            name: 'PostUser',
+            columnNames: ['user_id'],
+            referencedTableName: 'users',
+            referencedColumnNames: ['id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+        ],
       }),
     );
   }

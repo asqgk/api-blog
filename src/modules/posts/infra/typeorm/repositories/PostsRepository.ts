@@ -1,5 +1,6 @@
 import { ICreatePost } from '@modules/posts/domain/models/ICreatePost';
 import { IListPosts } from '@modules/posts/domain/models/IListPosts';
+import { IPost } from '@modules/posts/domain/models/IPost';
 import { IPostsRepository } from '@modules/posts/domain/repositories/IPostsRepository';
 import { getRepository, Repository } from 'typeorm';
 import Post from '../entities/Post';
@@ -11,8 +12,8 @@ class PostsRepository implements IPostsRepository {
     this.ormRepository = getRepository(Post);
   }
 
-  public async create({ title, content, userId }: ICreatePost): Promise<Post> {
-    const post = this.ormRepository.create({ title, content, userId });
+  public async create({ title, content, user }: ICreatePost): Promise<IPost> {
+    const post = this.ormRepository.create({ title, content, user });
 
     await this.ormRepository.save(post);
 
@@ -29,8 +30,17 @@ class PostsRepository implements IPostsRepository {
     await this.ormRepository.remove(post);
   }
 
-  public async findAll(): Promise<IListPosts[]> {
-    const posts = await this.ormRepository.find();
+  public async findAll(): Promise<IPost[]> {
+    const posts = await this.ormRepository.find({
+      join: {
+        alias: 'posts',
+        leftJoinAndSelect: {
+          users: 'posts.user_id',
+        },
+      },
+    });
+
+    // const posts = await this.ormRepository.find();
 
     console.log(posts);
 

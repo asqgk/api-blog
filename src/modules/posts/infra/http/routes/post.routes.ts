@@ -48,6 +48,7 @@ postsRouter.put(
 
 postsRouter.delete(
   '/:id',
+  isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
@@ -55,5 +56,7 @@ postsRouter.delete(
   }),
   postsController.delete,
 );
+
+postsRouter.get('/search', postsController.search);
 
 export default postsRouter;

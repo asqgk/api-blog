@@ -1,12 +1,16 @@
-// import AppError from '@shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
-import { ICreatePost } from '../domain/models/ICreatePost';
-import { IPostUser } from '../domain/models/IPostUser';
+import { IResponsePost } from '../domain/models/IResponsePost';
+import { IRequestCreatePost } from '../domain/models/IRequestCreatePost';
 import { IPostsRepository } from '../domain/repositories/IPostsRepository';
+import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 
 @injectable()
 class CreatePostService {
   constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+
     @inject('PostsRepository')
     private postsRepository: IPostsRepository,
   ) {}
@@ -14,18 +18,24 @@ class CreatePostService {
   public async execute({
     title,
     content,
-    userId,
-  }: ICreatePost): Promise<IPostUser> {
+    user_id,
+  }: IRequestCreatePost): Promise<IResponsePost> {
+    const userExists = await this.usersRepository.findById(user_id);
+
+    if (!userExists) {
+      throw new AppError('Could not find any user with the given id.');
+    }
+
     await this.postsRepository.create({
       title,
       content,
-      userId,
+      user: userExists,
     });
 
     return {
       title,
       content,
-      userId,
+      user_id,
     };
   }
 }

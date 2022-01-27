@@ -5,9 +5,9 @@
   "username": "",
   "password": "",
   "database": "apivendas",
-  "entities": ["./dist/modules/**/typeorm/entities/*.js"],
+  "entities": ["./dist/modules/**/typeorm/entities/*.ts"],
   "migrations": [
-    "./dist/shared/typeorm/migrations/*.js"
+    "./dist/shared/typeorm/migrations/*.ts"
   ],
   "cli": {
     "migrationsDir": "./dist/shared/typeorm/migrations"
