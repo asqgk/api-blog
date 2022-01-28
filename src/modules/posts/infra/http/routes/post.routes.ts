@@ -6,9 +6,9 @@ import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
 const postsRouter = Router();
 const postsController = new PostsController();
 
-// postsRouter.use(isAuthenticated);
-
 postsRouter.get('/', postsController.index);
+
+postsRouter.get('/search', isAuthenticated, postsController.search);
 
 postsRouter.get(
   '/:id',
@@ -56,7 +56,5 @@ postsRouter.delete(
   }),
   postsController.delete,
 );
-
-postsRouter.get('/search', postsController.search);
 
 export default postsRouter;

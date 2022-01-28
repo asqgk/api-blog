@@ -37,16 +37,6 @@ class PostsRepository implements IPostsRepository {
     return posts;
   }
 
-  // public async findByName(name: string): Promise<Post | undefined> {
-  //   const customer = await this.ormRepository.findOne({
-  //     where: {
-  //       name,
-  //     },
-  //   });
-
-  //   return customer;
-  // }
-
   public async findById(id: string): Promise<Post | undefined> {
     const post = await this.ormRepository.findOne(id, {
       relations: ['user'],

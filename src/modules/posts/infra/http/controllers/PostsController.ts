@@ -5,6 +5,7 @@ import ListPostService from '@modules/posts/services/ListPostService';
 import ShowPostService from '@modules/posts/services/ShowPostService';
 import UpdatePostService from '@modules/posts/services/UpdatePostService';
 import DeletePostService from '@modules/posts/services/DeletePostService';
+import FilteredPostsService from '@modules/posts/services/FilteredPostsService';
 
 export default class PostsController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -61,8 +62,6 @@ export default class PostsController {
 
     const user_id = request.user.id;
 
-    // console.log(user_id);
-
     const deletePost = container.resolve(DeletePostService);
 
     await deletePost.execute({ id, user_id });
@@ -71,10 +70,12 @@ export default class PostsController {
   }
 
   public async search(request: Request, response: Response): Promise<Response> {
-    const q = request.query.q;
+    const param = request.query.q as string;
 
-    // console.log(q);
+    const filteredPosts = container.resolve(FilteredPostsService);
 
-    return response.json();
+    const posts = await filteredPosts.execute({ param });
+
+    return response.json(posts);
   }
 }
