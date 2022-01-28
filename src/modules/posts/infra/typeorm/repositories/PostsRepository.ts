@@ -30,25 +30,9 @@ class PostsRepository implements IPostsRepository {
   }
 
   public async findAll(): Promise<IPost[]> {
-    // const posts = await this.ormRepository.find({
-    //   loadRelationIds: true,
-    //   relations: ['user'],
-    // });
-
     const posts = await this.ormRepository.find({
-      loadRelationIds: true,
       relations: ['user'],
-      join: {
-        alias: 'posts',
-        leftJoinAndSelect: {
-          users: 'posts.user',
-        },
-      },
     });
-
-    // const posts = await this.ormRepository.find({ loadRelationIds: true });
-
-    console.log(posts);
 
     return posts;
   }
@@ -65,7 +49,6 @@ class PostsRepository implements IPostsRepository {
 
   public async findById(id: string): Promise<Post | undefined> {
     const post = await this.ormRepository.findOne(id, {
-      loadRelationIds: true,
       relations: ['user'],
     });
 
