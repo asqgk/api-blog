@@ -27,10 +27,7 @@ class DeletePostService {
       throw new AppError('Usuário não existe.');
     }
 
-    console.log(post);
-
-    // user.id !== post.user.id
-    if (user.id !== post.id) {
+    if (user.id !== post.user.id) {
       throw new AppError('Usuário não autorizado', 401);
     }
 
