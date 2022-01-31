@@ -6,9 +6,11 @@ import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
 const postsRouter = Router();
 const postsController = new PostsController();
 
+postsRouter.use(isAuthenticated);
+
 postsRouter.get('/', postsController.index);
 
-postsRouter.get('/search', isAuthenticated, postsController.search);
+postsRouter.get('/search', postsController.search);
 
 postsRouter.get(
   '/:id',
@@ -22,7 +24,6 @@ postsRouter.get(
 
 postsRouter.post(
   '/',
-  isAuthenticated,
   celebrate({
     [Segments.BODY]: {
       title: Joi.string().required(),
@@ -48,7 +49,6 @@ postsRouter.put(
 
 postsRouter.delete(
   '/:id',
-  isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),

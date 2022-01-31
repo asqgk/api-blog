@@ -5,7 +5,7 @@ import { ISearchPost } from '../domain/models/ISearchPost';
 import { IPostsRepository } from '../domain/repositories/IPostsRepository';
 
 @injectable()
-class FilteredPostsService {
+class SearchPostsService {
   constructor(
     @inject('PostsRepository')
     private postsRepository: IPostsRepository,
@@ -22,8 +22,11 @@ class FilteredPostsService {
       throw new AppError('Post not found.');
     }
 
-    return filteredPosts;
+    return filteredPosts.map(post => {
+      delete post.user.password;
+      return post;
+    });
   }
 }
 
-export default FilteredPostsService;
+export default SearchPostsService;

@@ -15,8 +15,10 @@ class ShowPostService {
     const post = await this.postsRepository.findById(id);
 
     if (!post) {
-      throw new AppError('Post not found.');
+      throw new AppError('Post não existe', 404);
     }
+
+    delete post.user.password;
 
     return post;
   }

@@ -26,13 +26,11 @@ class CreatePostService {
       throw new AppError('Could not find any user with the given id.');
     }
 
-    const post = await this.postsRepository.create({
+    await this.postsRepository.create({
       title,
       content,
       user: userExists,
     });
-
-    // console.log(post);
 
     return {
       title,

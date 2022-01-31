@@ -5,7 +5,7 @@ import ListPostService from '@modules/posts/services/ListPostService';
 import ShowPostService from '@modules/posts/services/ShowPostService';
 import UpdatePostService from '@modules/posts/services/UpdatePostService';
 import DeletePostService from '@modules/posts/services/DeletePostService';
-import FilteredPostsService from '@modules/posts/services/FilteredPostsService';
+import SearchPostsService from '@modules/posts/services/SearchPostsService';
 
 export default class PostsController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -43,18 +43,21 @@ export default class PostsController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const { title, content } = request.body;
     const { id } = request.params;
+    const { title, content } = request.body;
+
+    const user_id = request.user.id;
 
     const updatePost = container.resolve(UpdatePostService);
 
-    const customer = await updatePost.execute({
+    const post = await updatePost.execute({
       id,
       title,
       content,
+      user_id,
     });
 
-    return response.json(customer);
+    return response.json(post);
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
@@ -72,7 +75,7 @@ export default class PostsController {
   public async search(request: Request, response: Response): Promise<Response> {
     const param = request.query.q as string;
 
-    const filteredPosts = container.resolve(FilteredPostsService);
+    const filteredPosts = container.resolve(SearchPostsService);
 
     const posts = await filteredPosts.execute({ param });
 

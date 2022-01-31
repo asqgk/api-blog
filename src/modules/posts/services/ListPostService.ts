@@ -12,7 +12,10 @@ class ListPostService {
   public async execute(): Promise<IPost[]> {
     const posts = await this.postsRepository.findAll();
 
-    return posts;
+    return posts.map(post => {
+      delete post.user.password;
+      return post;
+    });
   }
 }
 
